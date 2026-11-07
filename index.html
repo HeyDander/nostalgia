@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="default">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#090B14">
+  <meta name="description" content="RetroNova — 40+ классических игр, Coins, скины, конструктор своих игр и игры сообщества.">
+  <title>RetroNova — играй, зарабатывай, создавай</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%238B5CF6'/><text y='.9em' x='50' text-anchor='middle' font-size='76'>🎮</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/game-shell.css">
+  <link rel="stylesheet" href="css/editor.css">
+</head>
+<body>
+  <div class="bg-fx" aria-hidden="true">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div class="orb o3"></div>
+    <div class="grid"></div>
+  </div>
+
+  <div id="app">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#/home">
+        <div class="logo">🎮</div>
+        <div>
+          <div class="name">Retro<span>Nova</span></div>
+          <div class="tag">Game Universe</div>
+        </div>
+      </a>
+
+      <nav class="nav-scroll">
+        <div class="nav-group">
+          <div class="label">Игры</div>
+          <a class="nav-item" href="#/home" data-nav="home"><span class="ico">🏠</span> Главная</a>
+          <a class="nav-item" href="#/games" data-nav="games"><span class="ico">🕹️</span> Все игры <span class="badge" id="navGameCount">40+</span></a>
+          <a class="nav-item" href="#/community" data-nav="community"><span class="ico">🌐</span> Игры сообщества <span class="badge" id="navCommunityCount" hidden>0</span></a>
+        </div>
+
+        <div class="nav-group">
+          <div class="label">Прогресс</div>
+          <a class="nav-item" href="#/profile" data-nav="profile"><span class="ico">👤</span> Профиль</a>
+          <a class="nav-item" href="#/leaderboard" data-nav="leaderboard"><span class="ico">🏆</span> Лидеры</a>
+          <a class="nav-item" href="#/achievements" data-nav="achievements"><span class="ico">🎖️</span> Достижения</a>
+          <a class="nav-item" href="#/quests" data-nav="quests"><span class="ico">📋</span> Задания <span class="badge" id="navQuestBadge" hidden>0</span></a>
+        </div>
+
+        <div class="nav-group">
+          <div class="label">Кастомизация</div>
+          <a class="nav-item" href="#/shop" data-nav="shop"><span class="ico">🛍️</span> Магазин</a>
+          <a class="nav-item" href="#/inventory" data-nav="inventory"><span class="ico">🎒</span> Инвентарь</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="label">Создавай</div>
+          <a class="nav-item" href="#/editor" data-nav="editor"><span class="ico">🛠️</span> Конструктор</a>
+          <a class="nav-item" href="#/projects" data-nav="editor"><span class="ico">📁</span> Мои проекты</a>
+        </div>
+
+        <div class="nav-group">
+          <div class="label">Система</div>
+          <a class="nav-item" href="#/settings" data-nav="settings"><span class="ico">⚙️</span> Настройки</a>
+        </div>
+      </nav>
+
+      <div class="side-user" id="sideUser" role="button" tabindex="0">
+        <div class="avatar" id="sideAvatar">?</div>
+        <div class="meta">
+          <div class="nick" id="sideNick">Гость</div>
+          <div class="lvl" id="sideLvl">Войдите, чтобы сохранять прогресс</div>
+          <div class="xp-bar"><i id="sideXp" style="width:0%"></i></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="scrim" id="scrim"></div>
+
+    <!-- ============ MAIN ============ -->
+    <div class="main">
+      <header class="topbar">
+        <button class="icon-btn burger" id="burger" aria-label="Меню">☰</button>
+        <div class="page-title" id="pageTitle">Главная</div>
+
+        <div class="search-box">
+          <span class="ico">🔍</span>
+          <input type="search" id="globalSearch" placeholder="Найти игру…" autocomplete="off">
+        </div>
+
+        <div class="topbar-actions">
+          <div class="coin-pill" id="coinPill" title="Ваш баланс">
+            <span class="coin-ico">C</span><span id="coinValue">0</span>
+          </div>
+          <button class="icon-btn" id="btnQuests" title="Ежедневные задания">📋<span class="dot" id="questDot" hidden></span></button>
+          <button class="icon-btn" id="btnLogin" title="Профиль">👤</button>
+        </div>
+      </header>
+
+      <main id="view" class="view" tabindex="-1"></main>
+    </div>
+
+    <!-- ============ BOTTOM NAV (mobile) ============ -->
+    <nav class="bottom-nav">
+      <a href="#/home" data-nav="home"><span class="ico">🏠</span>Главная</a>
+      <a href="#/games" data-nav="games"><span class="ico">🕹️</span>Игры</a>
+      <a href="#/editor" data-nav="editor"><span class="ico">🛠️</span>Создать</a>
+      <a href="#/community" data-nav="community"><span class="ico">🌐</span>Мир</a>
+      <a href="#/profile" data-nav="profile"><span class="ico">👤</span>Профиль</a>
+    </nav>
+  </div>
+
+  <!-- ============ CORE ============ -->
+  <script src="js/core/store.js"></script>
+  <script src="js/core/ui.js"></script>
+  <script src="js/core/economy.js"></script>
+  <script src="js/core/achievements.js"></script>
+  <script src="js/core/quests.js"></script>
+  <script src="js/core/shop.js"></script>
+  <script src="js/core/skins.js"></script>
+  <script src="js/core/sfx.js"></script>
+  <script src="js/core/router.js"></script>
+  <script src="js/core/games.js"></script>
+  <script src="js/core/projects.js"></script>
+  <script src="js/core/moderation.js"></script>
+
+  <!-- ============ PAGES ============ -->
+  <script src="js/pages/home.js"></script>
+  <script src="js/pages/games.js"></script>
+  <script src="js/pages/game.js"></script>
+  <script src="js/pages/profile.js"></script>
+  <script src="js/pages/shop.js"></script>
+  <script src="js/pages/inventory.js"></script>
+  <script src="js/pages/leaderboard.js"></script>
+  <script src="js/pages/achievements.js"></script>
+  <script src="js/pages/quests.js"></script>
+  <script src="js/pages/editor.js"></script>
+  <script src="js/pages/projects.js"></script>
+  <script src="js/pages/community.js"></script>
+  <script src="js/pages/settings.js"></script>
+
+  <!-- ============ GAMES ============ -->
+  <script src="js/games/snake.js"></script>
+  <script src="js/games/snake2.js"></script>
+  <script src="js/games/tetris.js"></script>
+  <script src="js/games/pacman.js"></script>
+  <script src="js/games/pong.js"></script>
+  <script src="js/games/invaders.js"></script>
+  <script src="js/games/flappy.js"></script>
+  <script src="js/games/minesweeper.js"></script>
+  <script src="js/games/g2048.js"></script>
+  <script src="js/games/breakout.js"></script>
+  <script src="js/games/arkanoid.js"></script>
+  <script src="js/games/doodle.js"></script>
+  <script src="js/games/dino.js"></script>
+  <script src="js/games/asteroids.js"></script>
+  <script src="js/games/memory.js"></script>
+  <script src="js/games/tictactoe.js"></script>
+  <script src="js/games/chess.js"></script>
+  <script src="js/games/checkers.js"></script>
+  <script src="js/games/solitaire.js"></script>
+  <script src="js/games/sudoku.js"></script>
+  <script src="js/games/connect4.js"></script>
+  <script src="js/games/simon.js"></script>
+  <script src="js/games/whack.js"></script>
+  <script src="js/games/bomberman.js"></script>
+  <script src="js/games/frogger.js"></script>
+  <script src="js/games/galaga.js"></script>
+  <script src="js/games/geometry.js"></script>
+  <script src="js/games/colorswitch.js"></script>
+  <script src="js/games/towerdef.js"></script>
+  <script src="js/games/cookie.js"></script>
+  <script src="js/games/reaction.js"></script>
+  <script src="js/games/typing.js"></script>
+  <script src="js/games/aim.js"></script>
+  <script src="js/games/runner.js"></script>
+  <script src="js/games/racing.js"></script>
+  <script src="js/games/basketball.js"></script>
+  <script src="js/games/penalty.js"></script>
+  <script src="js/games/minigolf.js"></script>
+  <script src="js/games/bubble.js"></script>
+  <script src="js/games/match3.js"></script>
+  <script src="js/games/missile.js"></script>
+  <script src="js/games/puzzle15.js"></script>
+  <script src="js/games/catch.js"></script>
+  <script src="js/games/battleship.js"></script>
+
+  <!-- ============ APP ============ -->
+  <script src="js/app.js"></script>
+</body>
+</html>
