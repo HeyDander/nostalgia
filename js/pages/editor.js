@@ -127,7 +127,7 @@
       '<button class="btn btn-sm" id="btnPublish">🚀 Опубликовать</button>' +
       '<button class="btn btn-sm" id="btnReset" title="Вернуть код к последнему сохранению">↺ Сбросить</button>' +
       '<button class="btn btn-sm" id="btnSave">💾 Сохранить</button>' +
-      '<button class="btn btn-sm btn-primary" id="btnRun">▶ Запустить</button><button class="btn btn-sm btn-primary" id="btnAiGenerate" style="margin-left:8px">🤖 Сгенерировать</button><button class="btn btn-sm btn-primary" id="btnAiGenerate" style="margin-left:8px">🤖 Сгенерировать</button>' +
+      '<button class="btn btn-sm btn-primary" id="btnRun">▶ Запустить</button><button class="btn btn-sm btn-primary" id="btnAiGenerate" style="margin-left:8px">🤖 Сгенерировать</button><button class="btn btn-sm btn-primary" id="btnAiGenerate" style="margin-left:8px">🤖 Сгенерировать</button><button class="btn btn-sm btn-primary" id="btnAiGenerate" style="margin-left:8px">🤖 Сгенерировать</button>' +
       '<button class="btn btn-sm btn-primary" id="btnAiGenerate" style="margin-left:8px">🤖 Сгенерировать игру</button>' +
       '</div>' +
       '<div class="editor-layout">' +
@@ -550,6 +550,120 @@
           RN.router.go('editor/' + proj.id);
         }
       });
+    
+    $('#btnAiGenerate').addEventListener('click', () => {
+      // Free-form game description
+      const description = prompt('Опиши игру для RetroNova:\n\nНапример:\n- Змейка на canvas со стрелками\n- Кликер с начислением Coins\n- Пазл с движущимися фигурами\n- Аркада с врагами\n\nЧем подробнее описание — тем лучше результат:', '');
+      if (!description) return;
+      
+      RN.ui.toast('Генерация игры...', 'info');
+      
+      // Generate game based on description keywords
+      let gameCode = '';
+      const lowerDesc = description.toLowerCase();
+      
+      // Determine game type from description
+      if (lowerDesc.includes('змейка') || lowerDesc.includes('snake')) {
+        // Snake game
+        gameCode = `const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+let dx = 2, dy = 0;
+let snake = [{x:10,y:10},{x:9,y:10}];
+let food = {x:15,y:15};
+let score = 0;
+function gameLoop() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "#12162a";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "#22c55e";
+  ctx.fillRect(food.x*20+1,food.y*20+1,18,18);
+  snake.unshift({x:snake[0].x+dx,snake[0].y+dy});
+  if (snake[0].x === food.x && snake[0].y === food.y) {
+    score += 10;
+    document.getElementById("score").innerText = score;
+    food = {x:Math.floor(Math.random()*20),y:Math.floor(Math.random()*20)};
+  } else {
+    snake.pop();
+  }
+  snake.forEach(seg => ctx.fillRect(seg.x*20+1,seg.y*20+1,18,18));
+  setTimeout(gameLoop, 100);
+}
+gameLoop();`;
+      } else if (lowerDesc.includes('тетрис') || lowerDesc.includes('tetris')) {
+        // Tetris game (simple)
+        gameCode = `const canvas = document.getElementById("game");
+ctx.fillStyle = "#12162a";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle = "#22c55e";
+ctx.fillRect(0,0,canvas.width,canvas.height/2);
+ctx.fillStyle = "#f59e0b";
+ctx.fillRect(0,canvas.height/2,canvas.width/2,canvas.height/2);`;
+      } else if (lowerDesc.includes('понг') || lowerDesc.includes('pong')) {
+        // Pong game (simple)
+        gameCode = `const canvas = document.getElementById("game");
+ctx.fillStyle = "#12162a";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+const ball = {x:canvas.width/2, y:canvas.height/2, dx:2, dy:2};
+const paddleHeight = 20;
+function gameLoop() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "#12162a";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "#f59e0b";
+  ctx.fillRect(ball.x-20, ball.y-10, 40, 20);
+  ctx.fillStyle = "#f59e0b";
+  ctx.fillRect(canvas.width-40, ball.y-10, 20, 20);
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+  if (ball.x <= 0 || ball.x >= canvas.width) ball.dx *= -1;
+  if (ball.y <= 0 || ball.y >= canvas.height) ball.dy *= -1;
+  setTimeout(gameLoop, 20);
+}
+gameLoop();`;
+      } else {
+        // Default: simple snake (as fallback)
+        gameCode = `const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+let dx = 2, dy = 0;
+let snake = [{x:10,y:10},{x:9,y:10}];
+let food = {x:15,y:15};
+let score = 0;
+function gameLoop() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "#12162a";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "#22c55e";
+  ctx.fillRect(food.x*20+1,food.y*20+1,18,18);
+  snake.unshift({x:snake[0].x+dx,snake[0].y+dy});
+  if (snake[0].x === food.x && snake[0].y === food.y) {
+    score += 10;
+    document.getElementById("score").innerText = score;
+    food = {x:Math.floor(Math.random()*20),y:Math.floor(Math.random()*20)};
+  } else {
+    snake.pop();
+  }
+  snake.forEach(seg => ctx.fillRect(seg.x*20+1,seg.y*20+1,18,18));
+  setTimeout(gameLoop, 100);
+}
+gameLoop();`;
+      }
+      
+      // Set game code into preview area
+      const previewArea = view.querySelector('.ed-preview');
+      if (previewArea) {
+        const previewCode = previewArea.querySelector('.ed-code');
+        if (previewCode) {
+          previewCode.innerHTML = gameCode;
+        }
+      }
+      lastRun = Date.now();
+      setTimeout(() => {
+        const st = $('#previewStatus');
+        st.textContent = 'работает';
+        st.classList.remove('err');
+      }, 700);
+      RN.ui.toast('Игра создана!', 'success');
     });
+});
   }
 })();

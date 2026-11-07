@@ -147,7 +147,15 @@
         RN.sfx.enabled = e.target.checked;
         RN.db.save();
         if (e.target.checked) RN.sfx.play('click');
-      });
+      
+    $('#saveAiKey').addEventListener('click', () => {
+      const key = $('#aiApiKey').value.trim();
+      if (!key) { RN.ui.toast('Введите ключ', 'error'); return; }
+      localStorage.setItem('aiApiKey', key);
+      $('#aiKeyStatus').textContent = 'Ключ сохранен';
+      RN.ui.toast('Ключ сохранен', 'success');
+    });
+});
       $('#setVolume').addEventListener('input', e => {
         p.settings.sfxVolume = Number(e.target.value) / 100;
         RN.sfx.volume = p.settings.sfxVolume;
