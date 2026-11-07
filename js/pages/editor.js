@@ -161,14 +161,14 @@
       '</div></div>';
 
     const $ = s => view.querySelector(s);
-    const codeInput = $('#codeInput');
-    const highlightEl = $('#highlight');
-    const gutter = $('#gutter');
-    const consoleLog = $('#consoleLog');
+    const codeInput = document.querySelector('#codeInput');
+    const highlightEl = document.querySelector('#highlight');
+    const gutter = document.querySelector('#gutter');
+    const consoleLog = document.querySelector('#consoleLog');
 
     /* ---------- file list ---------- */
     function renderFiles() {
-      const list = $('#fileList');
+      const list = document.querySelector('#fileList');
       list.innerHTML = project.files.map(f => {
         const ext = f.name.split('.').pop().toLowerCase();
         return '<div class="ed-file ' + (f.name === activeFile.name ? 'active' : '') + '" data-file="' + RN.esc(f.name) + '">' +
@@ -207,7 +207,7 @@
       activeFile = f;
       project.activeFile = name;
       codeInput.value = f.content;
-      $('#curFileName').textContent = name;
+      document.querySelector('#curFileName').textContent = name;
       updateHighlight();
       renderFiles();
     }
@@ -220,7 +220,7 @@
       let g = '';
       for (let i = 1; i <= lines; i++) g += i + '\n';
       gutter.textContent = g;
-      $('#lineInfo').textContent = code.length + ' симв. · ' + lines + ' стр.';
+      document.querySelector('#lineInfo').textContent = code.length + ' симв. · ' + lines + ' стр.';
       syncScroll();
     }
 
@@ -274,7 +274,7 @@
     /* ---------- autosave ---------- */
     function markDirty() {
       dirty = true;
-      const st = $('#saveState');
+      const st = document.querySelector('#saveState');
       st.textContent = 'Не сохранено…';
       st.classList.remove('saved');
     }
@@ -282,7 +282,7 @@
       clearTimeout(autoTimer);
       autoTimer = setTimeout(() => {
         saveDraft();
-        const st = $('#saveState');
+        const st = document.querySelector('#saveState');
         st.textContent = 'Автосохранено';
         st.classList.add('saved');
       }, 900);
@@ -290,14 +290,14 @@
     function saveDraft() {
       RN.projects.update(project.id, {
         files: project.files,
-        name: $('#projName').value.trim() || project.name,
+        name: document.querySelector('#projName').value.trim() || project.name,
         activeFile: activeFile.name
       });
       dirty = false;
     }
     function saveSnapshot(manual) {
       clearTimeout(autoTimer);
-      const name = $('#projName').value.trim() || project.name;
+      const name = document.querySelector('#projName').value.trim() || project.name;
       project.snapshot = JSON.parse(JSON.stringify(project.files));
       RN.projects.update(project.id, {
         files: project.files,
@@ -306,7 +306,7 @@
         snapshot: project.snapshot
       });
       dirty = false;
-      const st = $('#saveState');
+      const st = document.querySelector('#saveState');
       st.textContent = 'Сохранено';
       st.classList.add('saved');
       if (manual) {
@@ -315,8 +315,8 @@
       }
     }
 
-    $('#projName').addEventListener('input', () => {
-      RN.projects.update(project.id, { name: $('#projName').value.trim() || 'Без названия' });
+    document.querySelector('#projName').addEventListener('input', () => {
+      RN.projects.update(project.id, { name: document.querySelector('#projName').value.trim() || 'Без названия' });
       markDirty();
       scheduleAutosave();
     });
@@ -333,7 +333,7 @@
       if (consoleLog.children.length > 120) consoleLog.removeChild(consoleLog.firstChild);
     }
 
-    $('#btnClearConsole').addEventListener('click', () => { consoleLog.innerHTML = ''; });
+    document.querySelector('#btnClearConsole').addEventListener('click', () => { consoleLog.innerHTML = ''; });
 
     msgHandler = function (e) {
       if (!iframe || e.source !== iframe.contentWindow) return;
@@ -376,11 +376,11 @@
       }, 700);
     }
 
-    $('#btnRun').addEventListener('click', () => { RN.sfx.play('click'); run(); });
-    $('#btnSave').addEventListener('click', () => saveSnapshot(true));
+    document.querySelector('#btnRun').addEventListener('click', () => { RN.sfx.play('click'); run(); });
+    document.querySelector('#btnSave').addEventListener('click', () => saveSnapshot(true));
 
-    $('#btnReset').addEventListener('click', async () => {
-    $('#btnAiGenerate').addEventListener('click', () => {
+    document.querySelector('#btnReset').addEventListener('click', async () => {
+    document.querySelector('#btnAiGenerate').addEventListener('click', () => {
       // Free-form game description
       const description = prompt('Опиши игру для RetroNova:\n\nНапример:\n- Змейка на canvas со стрелками\n- Кликер с начислением Coins\n- Пазл с движущимися фигурами\n- Аркада с врагами\n\nЧем подробнее описание — тем лучше результат:', '');
       if (!description) return;
@@ -510,13 +510,13 @@ gameLoop();`;
       RN.ui.toast('Код сброшен к сохранённой версии', 'info');
     });
 
-    $('#btnFs').addEventListener('click', () => {
+    document.querySelector('#btnFs').addEventListener('click', () => {
       if (document.fullscreenElement) document.exitFullscreen();
       else document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().catch(() => {});
     });
 
     /* ---------- add file ---------- */
-    $('#btnAddFile').addEventListener('click', async () => {
+    document.querySelector('#btnAddFile').addEventListener('click', async () => {
       const name = await RN.ui.prompt('Новый файл', 'например: game.js, style.css, index.html', '');
       if (!name) return;
       const clean = name.trim().replace(/[^\w.\-]/g, '').slice(0, 40);
@@ -541,7 +541,7 @@ gameLoop();`;
     });
 
     /* ---------- templates ---------- */
-    $('#btnTemplates').addEventListener('click', () => {
+    document.querySelector('#btnTemplates').addEventListener('click', () => {
       const tpls = RN.projects.TEMPLATES;
       const m = RN.ui.openModal(
         '<div class="modal-head"><h3>📚 Примеры игр</h3><p class="sub">Загрузите готовый пример — код заменит текущие файлы</p></div>' +
@@ -573,7 +573,7 @@ gameLoop();`;
     });
 
     /* ---------- publish ---------- */
-    $('#btnPublish').addEventListener('click', () => {
+    document.querySelector('#btnPublish').addEventListener('click', () => {
       saveSnapshot(false);
       if (RN.openPublishModal) RN.openPublishModal(project);
       else RN.ui.toast('Публикация недоступна', 'error');
@@ -652,7 +652,7 @@ gameLoop();`;
         }
       });
     
-    $('#btnAiGenerate').addEventListener('click', () => {
+    document.querySelector('#btnAiGenerate').addEventListener('click', () => {
       // Free-form game description
       const description = prompt('Опиши игру для RetroNova:\n\nНапример:\n- Змейка на canvas со стрелками\n- Кликер с начислением Coins\n- Пазл с движущимися фигурами\n- Аркада с врагами\n\nЧем подробнее описание — тем лучше результат:', '');
       if (!description) return;
