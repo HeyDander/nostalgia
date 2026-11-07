@@ -127,7 +127,7 @@
       '<button class="btn btn-sm" id="btnPublish">🚀 Опубликовать</button>' +
       '<button class="btn btn-sm" id="btnReset" title="Вернуть код к последнему сохранению">↺ Сбросить</button>' +
       '<button class="btn btn-sm" id="btnSave">💾 Сохранить</button>' +
-      '<button class="btn btn-sm btn-primary" id="btnRun">▶ Запустить</button><button class="btn btn-sm btn-primary" id="btnAiGenerate" style="margin-left:8px">🤖 Сгенерировать</button>' +
+      '<button class="btn btn-sm btn-primary" id="btnRun">▶ Запустить</button><button class="btn btn-sm btn-primary" id="btnAiGenerate" style="margin-left:8px">🤖 Сгенерировать</button><button class="btn btn-sm btn-primary" id="btnAiGenerate" style="margin-left:8px">🤖 Сгенерировать</button>' +
       '<button class="btn btn-sm btn-primary" id="btnAiGenerate" style="margin-left:8px">🤖 Сгенерировать игру</button>' +
       '</div>' +
       '<div class="editor-layout">' +
@@ -553,4 +553,4 @@
     });
   }
 })();
-    $('#btnAiGenerate').addEventListener('click', () => { if (confirm('Сгенерировать игру?\n1. Змейка\n2. Тетрис\n3. Понг')) { alert('Кнопка нажата'); }; });
+    $('#btnAiGenerate').addEventListener('click', () => { if (confirm('Сгенерировать игру?\n1. Змейка\n2. Тетрис\n3. Понг')) { alert('Кнопка нажата'); }; });    $('#btnAiGenerate').addEventListener('click', () => { if (confirm('Сгенерировать игру? 1. Змейка 2. Тетрис 3. Понг')) { alert('AI генерация RetroNova'); }; });
