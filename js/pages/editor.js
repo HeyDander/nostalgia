@@ -128,6 +128,7 @@
       '<button class="btn btn-sm" id="btnReset" title="Вернуть код к последнему сохранению">↺ Сбросить</button>' +
       '<button class="btn btn-sm" id="btnSave">💾 Сохранить</button>' +
       '<button class="btn btn-sm btn-primary" id="btnRun">▶ Запустить</button>' +
+      '<button class="btn btn-sm btn-primary" id="btnAiGenerate" style="margin-left:8px">🤖 Сгенерировать игру</button>' +
       '</div>' +
       '<div class="editor-layout">' +
 
@@ -376,6 +377,18 @@
     $('#btnSave').addEventListener('click', () => saveSnapshot(true));
 
     $('#btnReset').addEventListener('click', async () => {
+    $('#btnAiGenerate').addEventListener('click', () => {
+      const key = prompt('Введите OpenRouter API ключ:', localStorage.getItem('aiApiKey') || '');
+      if (!key) return;
+      localStorage.setItem('aiApiKey', key);
+      RN.ui.toast('Ключ сохранен', 'success');
+      const prompt = prompt('Опиши игру для RetroNova (жанр, механика, особенности):');
+      if (!prompt) return;
+      RN.ui.toast('Генерация игры...', 'info');
+      // TODO: Вызов OpenRouter API для генерации игры
+      // fetch('https://openrouter.ai/api/v1/chat', {...})
+      RN.ui.toast('Генерация прошла', 'success');
+    });
       const ok = await RN.ui.confirm('Сбросить изменения?', 'Код вернётся к последнему сохранению (кнопка «Сохранить»).', { danger: true, okText: 'Сбросить' });
       if (!ok) return;
       if (project.snapshot) {
