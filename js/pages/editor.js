@@ -342,7 +342,7 @@
       const text = (d.args || []).join(' ');
       logLine(d.type, text);
       if (d.type === 'error') {
-        const st = $('#previewStatus');
+        const st = document.querySelector('#previewStatus');
         st.textContent = 'ошибка';
         st.classList.add('err');
       }
@@ -352,7 +352,7 @@
     /* ---------- run ---------- */
     function run() {
       const doc = RN.projects.buildDoc(project.files);
-      const st = $('#previewStatus');
+      const st = document.querySelector('#previewStatus');
       st.textContent = 'запуск…';
       st.classList.remove('err');
       consoleLog.innerHTML = '';
@@ -369,8 +369,8 @@
       }
       lastRun = Date.now();
       setTimeout(() => {
-        if ($('#previewStatus').classList.contains('err')) return;
-        const st2 = $('#previewStatus');
+        if (document.querySelector('#previewStatus') && document.querySelector('#previewStatus').classList.contains('err')) return;
+        const st2 = document.querySelector('#previewStatus');
         st2.textContent = 'работает';
         st2.classList.remove('err');
       }, 700);
@@ -487,7 +487,7 @@ gameLoop();`;
       }
       lastRun = Date.now();
       setTimeout(() => {
-        const st = $('#previewStatus');
+        const st = document.querySelector('#previewStatus');
         st.textContent = 'работает';
         st.classList.remove('err');
       }, 700);
@@ -759,7 +759,7 @@ gameLoop();`;
       }
       lastRun = Date.now();
       setTimeout(() => {
-        const st = $('#previewStatus');
+        const st = document.querySelector('#previewStatus');
         st.textContent = 'работает';
         st.classList.remove('err');
       }, 700);
