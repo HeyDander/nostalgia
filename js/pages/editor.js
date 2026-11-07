@@ -358,9 +358,10 @@
       logLine('info', 'Запуск предпросмотра');
 
       // set game content directly into preview area (no iframe)
-      const codeWrap = $('#ed-code');
-      if (codeWrap) {
-        codeWrap.innerHTML = doc;
+      // The preview area is the .ed-code element inside .ed-preview
+      const previewCode = $('.ed-preview').find('.ed-code').first();
+      if (previewCode.length) {
+        previewCode[0].innerHTML = doc;
       }
       lastRun = Date.now();
       setTimeout(() => {
