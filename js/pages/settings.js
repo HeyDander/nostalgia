@@ -73,17 +73,14 @@
       // AI SETTINGS
       '<div class="card no-hover">' +
       '<h3>🤖 AI Генератор игр</h3>' +
-      '<p class="muted small">Для генерации игр с помощью искусственного интеллекта</p>' +
+      '<p class="muted small">Введите ключ OpenRouter для генерации игр</p>' +
       '<div class="setting-row">' +
       '<div class="sr-body">' +
-      '<div class="sr-t">OpenRouter API ключ</div>' +
-      '<div class="sr-s">Ключ для доступа к ИИ-моделям</div>' +
+      '<div class="sr-t">API ключ</div>' +
       '</div>' +
-      '<input type="text" id="aiApiKey" class="input" placeholder="sk-or-..." style="width:100%;margin-top:4px;padding:8px;border-radius:4px;border:1px solid var(--border);background:rgba(0,0,0,.3);color:var(--text);">' +
-      '</div>' +
-      '<div class="setting-row" style="margin-top:8px;">' +
-      '<button class="btn btn-sm btn-primary" id="saveAiKey">Сохранить ключ</button>' +
-      '<span class="muted small" id="aiKeyStatus">Ключ не сохранен</span>' +
+      '<input type="text" id="aiApiKey" class="input" placeholder="sk-or-..." style="width:100%;margin-top:4px;padding:8px;border-radius:4px;border:1px solid var(--border);background:rgba(0,0,0,.3);color:var(--text);" maxlength="100">' +
+      '<div class="sr-body" style="margin-top:8px;">' +
+      '<div class="sr-t">Важно: Получить ключ можно на <a href="https://openrouter.ai" target="_blank">openrouter.ai</a></div>' +
       '</div>' +
       '</div>' +
 
