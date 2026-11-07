@@ -163,7 +163,6 @@
     const codeInput = $('#codeInput');
     const highlightEl = $('#highlight');
     const gutter = $('#gutter');
-    const frameWrap = $('#frameWrap');
     const consoleLog = $('#consoleLog');
 
     /* ---------- file list ---------- */
@@ -359,8 +358,10 @@
       logLine('info', 'Запуск предпросмотра');
 
       // set game content directly into preview area (no iframe)
-      const wrap = $('#frameWrap');
-      wrap.innerHTML = doc;
+      const codeWrap = $('#ed-code');
+      if (codeWrap) {
+        codeWrap.innerHTML = doc;
+      }
       lastRun = Date.now();
       setTimeout(() => {
         if ($('#previewStatus').classList.contains('err')) return;
@@ -393,7 +394,7 @@
 
     $('#btnFs').addEventListener('click', () => {
       if (document.fullscreenElement) document.exitFullscreen();
-      else frameWrap.requestFullscreen && frameWrap.requestFullscreen().catch(() => {});
+      else document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().catch(() => {});
     });
 
     /* ---------- add file ---------- */
