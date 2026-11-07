@@ -366,8 +366,8 @@
       '<button class="gs-btn" id="comReport" title="Жалоба">⚑</button>' +
       '<button class="gs-btn" id="comFs" title="Полный экран">⛶</button>' +
       '</div></div>' +
-      '<div class="gs-stage" style="background:#fff"><iframe id="comFrame" sandbox="allow-scripts allow-pointer-lock" style="width:100%;height:100%;border:none;display:block" title="' + RN.esc(g.title) + '"></iframe></div>' +
-      '<div class="gs-hint show" id="comHint"><span class="gs-hint-ico">🛡️</span> Игра сообщества запущена в изолированном sandbox-iframe</div>' +
+      '<div class="gs-stage" style="background:#fff"></div>' +
+      '<div class="gs-hint" id="comHint" style="display:none"><span class="gs-hint-ico">🛡️</span> Игра загружается</div>' +
       '</div>' +
 
       '<div class="game-info">' +
@@ -395,21 +395,14 @@
       '<a class="btn btn-block" href="#/community">← Все игры сообщества</a>' +
       '</div></div></div></div>';
 
-    // mount sandbox
-    const frame = view.querySelector('#comFrame');
-    frame.srcdoc = RN.projects.buildDoc(g.files || []);
-
-    // error bridge for community games
-    let errShown = false;
-    function onMsg(e) {
-      if (e.source !== frame.contentWindow) return;
-      const d = e.data;
-      if (d && d.rnSandbox && d.type === 'error' && !errShown) {
-        errShown = true;
-        RN.ui.toast('В игре сообщества произошла ошибка: ' + String(d.args && d.args[0] || '').slice(0, 80), 'error', { duration: 5000 });
-      }
+    // load game content directly into stage (no iframe)
+    const stage = view.querySelector('.gs-stage');
+    if (stage) {
+      stage.innerHTML = RN.projects.buildDoc(g.files || []);
+      // auto-hide loading hint after content loads
+      setTimeout(() => { const h = view.querySelector('#comHint'); if (h) h.style.display = 'none'; }, 500);
     }
-    window.addEventListener('message', onMsg);
+    // no iframe message bridge needed - console errors from game go to page F12 console
 
     view.querySelector('#comBack').addEventListener('click', () => RN.router.go('community'));
     view.querySelector('#comLike').addEventListener('click', () => {

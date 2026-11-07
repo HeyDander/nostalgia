@@ -150,7 +150,7 @@
       '<div class="ed-preview">' +
       '<div class="ed-preview-head">▶ Предпросмотр <span class="status" id="previewStatus">готов</span>' +
       '<button class="icon-btn" id="btnFs" style="width:28px;height:28px;font-size:13px;border-radius:8px;margin-left:8px" title="Полный экран">⛶</button></div>' +
-      '<div class="preview-frame-wrap" id="frameWrap"><iframe id="previewFrame" sandbox="allow-scripts allow-pointer-lock" title="Предпросмотр игры"></iframe></div>' +
+      '<div class="ed-code">' +
       '<div class="ed-console">' +
       '<div class="ed-console-head"><span>▣ Консоль</span><button class="clr" id="btnClearConsole">Очистить</button></div>' +
       '<div class="ed-console-log" id="consoleLog"></div>' +
@@ -356,20 +356,11 @@
       st.textContent = 'запуск…';
       st.classList.remove('err');
       consoleLog.innerHTML = '';
-      logLine('info', 'Запуск предпросмотра (sandbox iframe)');
+      logLine('info', 'Запуск предпросмотра');
 
-      // recreate iframe to guarantee clean state
+      // set game content directly into preview area (no iframe)
       const wrap = $('#frameWrap');
-      const old = wrap.querySelector('iframe');
-      const newFrame = document.createElement('iframe');
-      newFrame.id = 'previewFrame';
-      newFrame.setAttribute('sandbox', 'allow-scripts allow-pointer-lock');
-      newFrame.title = 'Предпросмотр игры';
-      if (old) old.remove();
-      wrap.insertBefore(newFrame, wrap.firstChild);
-      iframe = newFrame;
-
-      newFrame.srcdoc = doc;
+      wrap.innerHTML = doc;
       lastRun = Date.now();
       setTimeout(() => {
         if ($('#previewStatus').classList.contains('err')) return;
