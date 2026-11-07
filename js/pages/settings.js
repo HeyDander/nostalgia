@@ -303,10 +303,14 @@ $('#saveAiKey').addEventListener('click', () => {
       RN.router.render();
     });
   }
-})();
 
-
-    <script>
+    $('#saveAiKey').addEventListener('click', () => {
+      const key = $('#aiApiKey').value.trim();
+      if (!key) { RN.ui.toast('Введите ключ', 'error'); return; }
+      localStorage.setItem('aiApiKey', key);
+      $('#aiKeyStatus').textContent = 'Ключ сохранен';
+      RN.ui.toast('Ключ сохранен', 'success');
+    
     $('#saveAiKey').addEventListener('click', () => {
       const key = $('#aiApiKey').value.trim();
       if (!key) { RN.ui.toast('Введите ключ', 'error'); return; }
@@ -314,4 +318,5 @@ $('#saveAiKey').addEventListener('click', () => {
       $('#aiKeyStatus').textContent = 'Ключ сохранен';
       RN.ui.toast('Ключ сохранен', 'success');
     });
-    </script>
+});})();
+

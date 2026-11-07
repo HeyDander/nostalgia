@@ -553,4 +553,3 @@
     });
   }
 })();
-    $('#btnAiGenerate').addEventListener('click', () => { if (confirm('Сгенерировать игру?\n1. Змейка\n2. Тетрис\n3. Понг')) { alert('Кнопка нажата'); }; });    $('#btnAiGenerate').addEventListener('click', () => { if (confirm('Сгенерировать игру? 1. Змейка 2. Тетрис 3. Понг')) { alert('AI генерация RetroNova'); }; });
