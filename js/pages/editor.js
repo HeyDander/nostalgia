@@ -360,9 +360,12 @@
 
       // set game content directly into preview area (no iframe)
       // The preview area is the .ed-code element inside .ed-preview
-      const previewCode = $('.ed-preview').find('.ed-code').first();
-      if (previewCode.length) {
-        previewCode[0].innerHTML = doc;
+      const previewArea = view.querySelector('.ed-preview');
+      if (previewArea) {
+        const previewCode = previewArea.querySelector('.ed-code');
+        if (previewCode) {
+          previewCode.innerHTML = doc;
+        }
       }
       lastRun = Date.now();
       setTimeout(() => {
