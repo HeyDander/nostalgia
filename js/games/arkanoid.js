@@ -206,7 +206,7 @@
     }
 
     function reset() {
-      paddle = { x: cv.w / 2 - baseW() / 2 };
+      paddle = { x: cv.w / 2 - baseW() / 2, y: cv.h - 40 };
       balls = [];
       bonuses = [];
       particles = [];
@@ -255,7 +255,7 @@
         }
         api.sfx('power');
       } else if (t === 'multi') {
-        if (balls.length < 6 && balls[0].vx !== 0) {
+        if (balls.length > 0 && balls.length < 6 && balls[0].vx !== 0) {
           const src = balls[Math.floor(Math.random() * balls.length)];
           const ang = Math.atan2(src.vy, src.vx);
           [-0.55, 0.55].forEach(da => {
@@ -277,6 +277,7 @@
     /* ---------- input ---------- */
     function movePaddle(dt) {
       const w = cv.w, pw = paddleW();
+      paddle.y = cv.h - 40;
       const left = input.down('ArrowLeft') || input.down('a') || input.touch.left;
       const right = input.down('ArrowRight') || input.down('d') || input.touch.right;
       const ps = w * 0.85;

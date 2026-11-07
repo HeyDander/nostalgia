@@ -370,7 +370,7 @@
         combo = 0;
         ghosts.forEach(g => { if (g.state !== 'eyes') g.frightened = true; });
         const p = posOf(pm);
-        burst((p.x + 0.5) * 1, (p.y + 0.5) * 1, '#5BE7FF', 14);
+        burst(p.x + 0.5, p.y + 0.5, '#5BE7FF', 14);
         addFloat(pm.tx, pm.ty, '50');
       }
     }

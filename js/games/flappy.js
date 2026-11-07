@@ -31,7 +31,7 @@
     function birdX() { return cv.w * 0.3; }
     function birdR() { return 13 * S(); }
     function pipeW() { return Math.max(48, cv.w * 0.09); }
-    function gap() { return 158 * S(); }
+    function gap() { return 150 * S(); }
 
     /* ---------- scenery ---------- */
     function makeScenery() {
@@ -75,7 +75,7 @@
       if (over) return;
       if (mode === 'ready') mode = 'play';
       if (mode !== 'play') return;
-      bird.vy = -430 * S();
+      bird.vy = -520 * S();
       bird.wing = 0.22;
       api.sfx('jump');
     }
@@ -113,7 +113,7 @@
       if (mode === 'play') {
         if (input.pressed('Space') || input.pressed('Enter') || input.pressed('ArrowUp') || input.pressed('w')) flap();
 
-        bird.vy += 1500 * s * dt;
+        bird.vy += 1450 * s * dt;
         bird.y += bird.vy * dt;
         if (bird.wing > 0) bird.wing = Math.max(0, bird.wing - dt);
         bird.rot = Math.max(-0.5, Math.min(1.35, bird.vy / (520 * s)));
@@ -152,7 +152,7 @@
       }
 
       /* mode === 'dead': птица падает, мир замирает */
-      bird.vy += 1500 * s * dt;
+      bird.vy += 1450 * s * dt;
       bird.y += bird.vy * dt;
       bird.rot = Math.min(1.5, bird.rot + dt * 3);
       const gy = groundY();

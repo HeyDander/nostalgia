@@ -96,7 +96,7 @@
     }
 
     function reset() {
-      paddle = { x: cv.w / 2 - paddleW() / 2 };
+      paddle = { x: cv.w / 2 - paddleW() / 2, y: cv.h - 40 };
       ball = { x: 0, y: 0, vx: 0, vy: 0, r: Math.max(6, cv.h * 0.02) };
       particles = [];
       lives = 3;
@@ -127,6 +127,7 @@
     function movePaddle(dt) {
       const w = cv.w, h = cv.h;
       const pw = paddleW();
+      paddle.y = h - 40;
       const left = input.down('ArrowLeft') || input.down('a') || input.touch.left;
       const right = input.down('ArrowRight') || input.down('d') || input.touch.right;
       const ps = w * 0.85;

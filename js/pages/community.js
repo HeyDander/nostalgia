@@ -68,7 +68,8 @@
 
       let games = c.games.filter(g => {
         if (tab === 'mine') return g.author === p.nick;
-        if (g.status !== 'approved') return false;
+        // Show approved games AND pending games (published but awaiting manual review)
+        if (g.status !== 'approved' && g.status !== 'pending') return false;
         if (tab === 'favorites') return p.favorites.includes(g.id);
         return true;
       });
